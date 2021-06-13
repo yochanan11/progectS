@@ -21,7 +21,7 @@ namespace progectS.Models
 
         public double Quantity { get; set; }//כמות
 
-        public Plane Plane { get; set; }
+       
 
         
 

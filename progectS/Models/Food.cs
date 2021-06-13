@@ -14,9 +14,11 @@ namespace progectS.Models
 
         [Display(Name = "שם מאכל")]
         public string Name { get; set; }
-
+        
         [Display(Name = "מספר הקלוריות")]
         public int Caloris { get; set; }
+
+
 
         [Display(Name = "תמונה")]
         public byte[] Photo { get; set; }
