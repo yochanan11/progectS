@@ -56,24 +56,20 @@ namespace progectS.Controllers
         {
             VMAddIndices user = new VMAddIndices
             {
-                User = DAL.Get.User
+                User  = DAL.Get.User,
+                Weight = DAL.Get.Indices.ToList().Find(w=> w.User.ID == DAL.Get.User.ID)
             };
 
             return View(user);
         }
-        public IActionResult AddIndices()
-        {
-            VMAddIndices VM = new VMAddIndices();
-            
-            return View(VM);
-        }
+        
         [HttpPost]
         [ValidateAntiForgeryToken]
         public IActionResult AddIndices(VMAddIndices vmi)
         {
             if (DAL.Get.User.Mail == null) return RedirectToAction(nameof(Connect));
             User user = DAL.Get.User;
-            user.AddWeight(vmi.Weight);
+            DAL.Get.Users.ToList().Find(u=>u.ID == user.ID).AddWeight(vmi.Weight);
             DAL.Get.SaveChanges();
             return RedirectToAction(nameof(SohuUser), new { id = user.ID });
         }

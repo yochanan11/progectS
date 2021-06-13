@@ -18,8 +18,6 @@ namespace progectS.Models
         [Display(Name = "מספר הקלוריות")]
         public int Caloris { get; set; }
 
-
-
         [Display(Name = "תמונה")]
         public byte[] Photo { get; set; }
         //ממיר תמונה לבייטים

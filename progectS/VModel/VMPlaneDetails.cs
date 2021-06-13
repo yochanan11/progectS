@@ -6,12 +6,10 @@ using progectS.Models;
 
 namespace progectS.VModel
 {
-    public class VMAddIndices
+    public class VMPlaneDetails
     {
-        public User User { get; set; }
+        public Plane Plane { get; set; }
 
-        public Weight Weight { get; set; }
-
-        public int WeightID { get; set; }
+        public Meal Meal { get; set; }
     }
 }

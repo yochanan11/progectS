@@ -27,7 +27,7 @@ namespace progectS.Models
 
         [Display(Name = "רשימת האוכל בתוך הארוחה")]
         public List<FoodInMeal> Foods { get; set; }//רשימת האוכל בתוך הארוחה
-
+        [Display(Name = "סה''כ קלוריות")]
         public int SumCalories//סה"כ קלוריות
         {
             get
@@ -35,6 +35,7 @@ namespace progectS.Models
                 double Sum = 0;
                 foreach (FoodInMeal food in Foods)
                 {
+                    if (food.Quantity == 0 || food.Food.Caloris == 0) return (int)Sum;
                     Sum += food.Food.Caloris*food.Quantity;
                 }
                 return (int)Sum;

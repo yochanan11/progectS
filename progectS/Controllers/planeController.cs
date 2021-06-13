@@ -5,6 +5,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using System.Data.Entity;
 
 namespace progectS.Controllers
 {
@@ -34,8 +35,28 @@ namespace progectS.Controllers
         }
         public IActionResult Details(int? id)
         {
-            Plane plane = DAL.Get.Planes.ToList().Find(p => p.ID == id);
-            return View(plane);
+            int plane = DAL.Get.Planes.ToList().Find(p => p.ID == id).ID;
+            VMPlaneDetails VM = new VMPlaneDetails
+            {
+                Plane = DAL.Get.Planes.ToList().Find(p => p.ID == id),
+                Meal = DAL.Get.Meals.Include(m=> m.MealName).ToList().Find(m => m.Plane.ID == plane)
+            };
+            return View(VM);
+        }
+
+        public IActionResult MealDetails(int? id)
+        {
+
+            Meal meal = DAL.Get.Meals.Include(f=> f.Foods).Include(m=> m.MealName).ToList().Find(m => m.ID == id);
+            VMMealDetails VM = new VMMealDetails
+            {
+                Food = DAL.Get.FoodsInMeal.Include(f=> f.Food).ToList().Find(f => f.Meal.ID == meal.ID),
+                Meal = DAL.Get.Meals.ToList().Find(m => m.ID == meal.ID),
+                
+                MealID = meal.ID
+
+            };
+            return View(VM);
         }
         public IActionResult ShowPlanes(int? id)
         {
@@ -62,8 +83,8 @@ namespace progectS.Controllers
                 TypeOfMeals = DAL.Get.TypeOfMeals.ToList(),
                 Meal = new Meal(),
                 Plane = DAL.Get.Planes.ToList().Find(p => p.ID == id),
-                PlaneID = DAL.Get.Planes.ToList().Find(p => p.ID == id).ID
-
+                PlaneID = DAL.Get.Planes.ToList().Find(p => p.ID == id).ID   
+                
             };
             return View(VM);
         }
@@ -81,10 +102,44 @@ namespace progectS.Controllers
                 MealName = type,
                 Plane = plane,
             };
-            plane.AddMeal(meal);
-           // DAL.Get.SaveChanges();
+           DAL.Get.Planes.ToList().Find(p=> p.ID == plane.ID).AddMeal(meal);
+           DAL.Get.SaveChanges();
             
             return RedirectToAction(nameof( Details),new { id = plane.ID });
+        }
+
+       
+
+        public IActionResult AddFoodsInMeal(int? id)
+        {
+            if(id== null) return RedirectToAction(nameof(Index));
+            Meal meal = DAL.Get.Meals.ToList().Find(m => m.ID == id);
+            VMAddFoodInMeal VM = new VMAddFoodInMeal
+            {
+                Meal = DAL.Get.Meals.ToList().Find(m => m.ID == id),
+                MealID = DAL.Get.Meals.ToList().Find(m => m.ID == id).ID,
+                
+                FoodInMeal = new FoodInMeal
+                {
+                    Meal = meal
+                }
+            };
+           /* Meal meal = DAL.Get.Meals.ToList().Find(m => m.ID == id);
+            meal.Plane = DAL.Get.Planes.ToList().Find(p => p.ID == meal.Plane.ID);
+            FoodInMeal food = new FoodInMeal {  Meal = meal
+            };*/
+            return View(VM);
+
+        }
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public IActionResult AddFoodsInMeal(VMAddFoodInMeal VMfood)
+        {
+            Meal meal = DAL.Get.Meals.ToList().Find(m => m.ID == VMfood.MealID);
+            Food food = DAL.Get.Foods.ToList().Find(f => f.ID == VMfood.FoodID);
+            DAL.Get.Meals.ToList().Find(m => m.ID == VMfood.MealID).AddFood(food, VMfood.FoodInMeal.Quantity);
+            DAL.Get.SaveChanges();
+            return RedirectToAction(nameof(MealDetails), new { id = meal.ID });
         }
     }
 }

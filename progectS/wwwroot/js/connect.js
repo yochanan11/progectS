@@ -3,12 +3,14 @@
     document.getElementById("registery").style.display = "";
     document.getElementById("bConnect").style.display = "";
     document.getElementById("bShowNewUser").style.display = "none";
+    document.getElementById("h1").innerHTML = "ברוך הבא";
 }
 function ShowConnect () {
     document.getElementById("connect").style.display = "";
     document.getElementById("registery").style.display = "none";
     document.getElementById("bShowNewUser").style.display = "";
     document.getElementById("bConnect").style.display = "none";
+    document.getElementById("h1").innerHTML = "ברוך שובך";
 }
 
 function Search(input) {

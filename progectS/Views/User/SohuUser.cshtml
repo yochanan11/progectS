@@ -71,6 +71,7 @@
     <table class="table">
         <thead>
             <tr>
+                <th>ID</th>
                 <th>תאריך משקל</th>
 
                 <th>משקל</th>
@@ -83,6 +84,9 @@
             @foreach (Weight item in Model.User.Weight)
             {
             <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.ID)
+                </td>
                 <td>
                     @Html.DisplayFor(modelItem => item.Date)
                 </td>

@@ -12,7 +12,7 @@ namespace progectS.VModel
         public VMAddMealOfPlane()
         {
             Plane = new Plane();
-            Foods = new List<Food>();
+           
             TypeOfMeals = new List<TypeOfMeal>();
         }
        
@@ -25,10 +25,6 @@ namespace progectS.VModel
         public int UserID { get; set; }
 
         public Meal Meal { get; set; }
-
-        public List<Food> Foods { get; set; }
-
-        public int FoodID { get; set; }
 
         public List<TypeOfMeal> TypeOfMeals { get; set; }
 

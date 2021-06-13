@@ -1,57 +1,53 @@
-﻿@model progectS.Models.Plane
+﻿@model progectS.VModel.VMPlaneDetails
 
 <div>
-    <h4>Plane</h4>
+    <h4>@Model.Plane.Name</h4>
     <hr />
     <dl class="row">
+ 
         <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.ID)
+            @Html.DisplayNameFor(model => model.Plane.Date)
         </dt>
         <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.ID)
-        </dd>
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.Name)
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.Name)
-        </dd>
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.Date)
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.Date)
+            @Html.DisplayFor(model => model.Plane.Date)
         </dd>
     </dl>
 </div>
 <div>
-    @Html.ActionLink("Edit", "Edit", new { id = Model.ID }) |
-    @Html.ActionLink("הוסף ארוחה לתוכנית", "AddMeal", new { id = Model.ID }) |
-    <a asp-action="ShowPlanes" asp-route-id="@Model.User.ID">Back to List</a>
+    @Html.ActionLink("Edit", "Edit", new { id = Model.Plane.ID }) |
+    @Html.ActionLink("הוסף ארוחה לתוכנית", "AddMeal", new { id = Model.Plane.ID }) |
+
+    <a asp-action="ShowPlanes" asp-route-id="@Model.Plane.User.ID">Back to List</a>
 </div>
-@if (Model.Meals.Count > 0)
+@if (Model.Plane.Meals.Count > 0)
 {
     <h4> ארוחות בתוכנית </h4>
     <table class="table">
         <thead>
             <tr>
+                <th>ID</th>
                 <th>תאריך ארוחה</th>
 
                 <th>שם הארוחה</th>
-
+                <th></th>
             </tr>
         </thead>
 
         <tbody>
 
-            @foreach (Meal item in Model.Meals)
+            @foreach (Meal item in Model.Plane.Meals)
             {
+               
                 <tr>
+                    <td>@Html.DisplayFor(modelItem => item.ID)</td>
                     <td>
                         @Html.DisplayFor(modelItem => item.Date)
                     </td>
                     <td>
                         @Html.DisplayFor(modelItem => item.MealName.Name)
+                    </td>
+                    <td>
+                        @Html.ActionLink("הצג ארוחה", "MealDetails", new { id = item.ID})
                     </td>
                 </tr>
             }
