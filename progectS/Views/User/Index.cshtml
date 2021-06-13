@@ -1,0 +1,41 @@
+﻿@model IEnumerable<progectS.Models.Plane>
+
+<p>
+    <a asp-action="AddPlane">Create New</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.ID)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Name)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Date)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.ID)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Name)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Date)
+            </td>
+            <td>
+                <a asp-area="" asp-controller="Plane" asp-action="Edit" asp-route-id="@item.ID">ערוך תוכנית</a> |
+                <a asp-area="" asp-controller="Plane" asp-action="Delete" asp-route-id="@item.ID">מחק תוכנית</a> |
+                <a asp-area="" asp-controller="Plane" asp-action="Details" asp-route-id="@item.ID">פרטי תוכנית</a>
+            </td>
+        </tr>
+}
+    </tbody>
+</table>

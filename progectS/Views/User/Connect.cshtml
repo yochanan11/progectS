@@ -1,0 +1,81 @@
+﻿@model progectS.Models.User
+
+@{
+    ViewData["Title"] = "Connect";
+}
+
+<h1>Connect</h1>
+
+<h4>User</h4>
+<hr />
+<div class="row row-cols-2">
+    <h5 class="m-2"><a class="btn btn-primary text-white" onclick="ShowConnect()" id="bConnect" style="display: none">התחבר</a></h5>
+    <h5 class="m-2"><a class="btn btn-primary text-white" onclick="ShowNewUser()" id="bShowNewUser">הירשם</a></h5>
+</div>
+<div class="row">
+    <div class="col-md-4" id="registery" style="display: none">
+        <form asp-action="Registery">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+            <div class="form-group">
+                <label asp-for="FirstName" class="control-label"></label>
+                <input asp-for="FirstName" class="form-control" />
+                <span asp-validation-for="FirstName" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="LastName" class="control-label"></label>
+                <input asp-for="LastName" class="form-control" />
+                <span asp-validation-for="LastName" class="text-danger"></span>
+            </div>
+
+            <div class="form-group">
+                <label asp-for="BirthOfDate" class="control-label"></label>
+                <input asp-for="BirthOfDate" class="form-control" />
+                <span asp-validation-for="BirthOfDate" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Mail" class="control-label"></label>
+                <input asp-for="Mail" class="form-control" />
+                <span asp-validation-for="Mail" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Password" class="control-label"></label>
+                <input asp-for="Password" class="form-control" />
+                <span asp-validation-for="Password" class="text-danger"></span>
+            </div>
+
+            <div class="form-group">
+                <input type="submit" value="צור" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+
+    <div class="col-md-4" id="connect">
+        <form asp-action="Connect">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+            <div class="form-group">
+                <label asp-for="Mail" class="control-label"></label>
+                <input asp-for="Mail" class="form-control" />
+                <span asp-validation-for="Mail" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Password" class="control-label"></label>
+                <input asp-for="Password" class="form-control" />
+                <span asp-validation-for="Password" class="text-danger"></span>
+            </div>
+
+            <div class="form-group">
+                <input type="submit" value="התחבר" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}
