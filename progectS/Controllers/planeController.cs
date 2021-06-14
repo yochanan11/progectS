@@ -141,5 +141,21 @@ namespace progectS.Controllers
             DAL.Get.SaveChanges();
             return RedirectToAction(nameof(MealDetails), new { id = meal.ID });
         }
+        public IActionResult AddType()
+        {
+            VMAddType types = new VMAddType {
+                Types = DAL.Get.TypeOfMeals.ToList(),
+                Type = new TypeOfMeal()
+            };
+            return View(types);
+        }
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public IActionResult AddType(VMAddType VM)
+        {
+            DAL.Get.TypeOfMeals.Add(VM.Type);
+            DAL.Get.SaveChanges();
+            return RedirectToAction(nameof(ShowPlanes),new { id = DAL.Get.User.ID });
+        }
     }
 }
