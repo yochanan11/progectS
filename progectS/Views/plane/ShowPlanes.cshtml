@@ -10,12 +10,12 @@
     <a asp-controller="User" asp-action="AddPlane" class="btn btn-primary">תוכנית חדשה</a>
 </p>
 
-        <div class="row">
+        <div class="row text-center">
             @foreach (var item in Model)
             {
-                <div class="col-sm-5">
+                <div class="col-sm-5 my-2">
                     <div class="card">
-                        <div class="card-body">
+                        <div class="card-body text-center">
                             <h4 class="card-title"> @Html.DisplayNameFor(model => model.Name)</h4>
                             <p class="card-text"> @Html.DisplayFor(modelItem => item.Name)</p>
                             <h5 class="card-title"> @Html.DisplayNameFor(model => model.Date)</h5>
