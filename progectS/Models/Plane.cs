@@ -20,7 +20,6 @@ namespace progectS.Models
 
         public User User { get; set; }
 
-     /*   public List<Meal> Meals { get; set; }*/
 
         public List<Day> Days { get; set; }
 
@@ -28,28 +27,17 @@ namespace progectS.Models
         [DataType(DataType.Date)]
         public DateTime Date { get; set; }
 
-        /*public void AddMeal(Meal meal) //מוסיף ארוחה לתוכנית ליוזר
-        {
-            Meals.Add(meal);
-            meal.Day = this;
-        }*/
+        
         public void AddDays()
         {
-            Day day1 = new Day { DayName = "יום ראשון", Date = Date, Plane = this };
-            Day day2 = new Day { DayName = "יום שני", Date = Date.AddDays(1), Plane = this };
-            Day day3 = new Day { DayName = "יום שלישי", Date = Date.AddDays(2), Plane = this };
-            Day day4 = new Day { DayName = "יום רביעי", Date = Date.AddDays(3), Plane = this };
-            Day day5 = new Day { DayName = "יום חמישי", Date = Date.AddDays(4), Plane = this };
-            Day day6 = new Day { DayName = "יום שישי", Date = Date.AddDays(5), Plane = this };
-            Day day7 = new Day { DayName = "יום שבת", Date = Date.AddDays(6), Plane = this };
+            string[] Darry = { "יום הראשון", "יום השני", "יום השלישי", "יום הרביעי", "יום החמישי", "יום השישי", "יום השביעי" };
             Days = new List<Day>();
-            Days.Add(day1);
-            Days.Add(day2);
-            Days.Add(day3);
-            Days.Add(day4);
-            Days.Add(day5);
-            Days.Add(day6);
-            Days.Add(day7);
+            for (int i = 0; i < Darry.Length; i++)
+            {
+                Day day = new Day { DayName = Darry[i], Date = Date.AddDays(i), Plane = this };
+                Days.Add(day);
+            }
+         
         }
     }
 
