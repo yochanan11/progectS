@@ -19,37 +19,36 @@
 
     <a asp-action="ShowPlanes" asp-route-id="@Model.Plane.User.ID">Back to List</a>
 </div>
-@if (Model.Plane.Meals.Count > 0)
+@if (Model.Plane.Days.Count > 0)
 {
-    <h4> ארוחות בתוכנית </h4>
+    <h4>  פירוט שבועי </h4>
     <table class="table">
         <thead>
             <tr>
-                <th>ID</th>
-                <th>תאריך ארוחה</th>
-
-                <th>שם הארוחה</th>
+                <th>תאריך</th>
+                <th>יום</th>
                 <th></th>
             </tr>
         </thead>
 
         <tbody>
 
-            @foreach (Meal item in Model.Plane.Meals)
+            @foreach (Day item in Model.Plane.Days)
             {
                
-                <tr>
-                    <td>@Html.DisplayFor(modelItem => item.ID)</td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.Date)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.MealName.Name)
-                    </td>
-                    <td>
-                        @Html.ActionLink("הצג ארוחה", "MealDetails", new { id = item.ID})
-                    </td>
-                </tr>
+            <tr>
+                <td>@Html.DisplayFor(modelItem => item.Date)</td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.DayName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Plane.Name)
+                </td>
+                <td>
+                    @Html.ActionLink("הצג ארוחות", "DaylDetails", new { id = item.ID })
+                </td>
+
+            </tr>
             }
 
         </tbody>

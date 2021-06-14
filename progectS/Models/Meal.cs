@@ -10,21 +10,17 @@ namespace progectS.Models
     {
         public Meal()
         { 
-            Foods = new List<FoodInMeal>();
-            Date = DateTime.Now;
+            Foods = new List<FoodInMeal>(); 
         }
         [Key]
         public int ID { get; set; }
 
-        public Plane Plane { get; set; }//לאיזה יעד הארוחה שייכת
+        public Day Day { get; set; }//לאיזה יום הארוחה שייכת
 
         [Display(Name = "שם הארוחה")]
         public TypeOfMeal MealName { get; set; }// שם הארוחה
 
-        [Display(Name = "תאריך")]
-        [DataType(DataType.Date)]
-        public DateTime Date { get; set; }// תאריך
-
+       
         [Display(Name = "רשימת האוכל בתוך הארוחה")]
         public List<FoodInMeal> Foods { get; set; }//רשימת האוכל בתוך הארוחה
         [Display(Name = "סה''כ קלוריות")]
@@ -37,6 +33,20 @@ namespace progectS.Models
                 {
                     if (food.Quantity == 0 || food.Food.Caloris == 0) return (int)Sum;
                     Sum += food.Food.Caloris*food.Quantity;
+                }
+                return (int)Sum;
+            }
+        }
+        [Display(Name = "סה''כ חלבונים")]
+        public int SumProteins//סה"כ חלבונים
+        {
+            get
+            {
+                double Sum = 0;
+                foreach (FoodInMeal food in Foods)
+                {
+                    if (food.Quantity == 0 || food.Food.Proteins == 0) return (int)Sum;
+                    Sum += food.Food.Proteins * food.Quantity;
                 }
                 return (int)Sum;
             }
@@ -58,7 +68,7 @@ namespace progectS.Models
             }
             Foods.Add(new FoodInMeal() { Food = food, Meal = this, Quantity = myQuantity });
         }
-
+       
 
     }
 }

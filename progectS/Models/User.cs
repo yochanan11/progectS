@@ -62,6 +62,7 @@ namespace progectS.Models
         public void AddPlan(Plane plans)//מוסיף תוכנית ליוזר
         {
             Plans.Add(plans);
+            plans.AddDays();
             plans.User = this;
         }
         public void AddWeight(Weight weight)//להוסיף משקל

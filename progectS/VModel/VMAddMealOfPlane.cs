@@ -11,14 +11,15 @@ namespace progectS.VModel
 
         public VMAddMealOfPlane()
         {
-            Plane = new Plane();
+            Day = new Day();
            
             TypeOfMeals = new List<TypeOfMeal>();
         }
        
 
-        public Plane Plane { get; set; }
-        public int PlaneID { get; set; }
+        public Day Day { get; set; }
+
+        public int DayID { get; set; }
 
         public User User { get; set; }
 

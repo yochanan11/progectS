@@ -38,10 +38,23 @@ namespace progectS.Controllers
             int plane = DAL.Get.Planes.ToList().Find(p => p.ID == id).ID;
             VMPlaneDetails VM = new VMPlaneDetails
             {
-                Plane = DAL.Get.Planes.ToList().Find(p => p.ID == id),
-                Meal = DAL.Get.Meals.Include(m=> m.MealName).ToList().Find(m => m.Plane.ID == plane)
+                Plane = DAL.Get.Planes.Include(d=> d.Days).ToList().Find(p => p.ID == id),
+                Day = DAL.Get.Days.ToList().Find(d=> d.Plane.ID == id)
             };
             return View(VM);
+        }
+
+        public IActionResult DaylDetails(int? id)
+        {
+            if (id <1) return RedirectToAction("Index", "home");
+            if(DAL.Get.User.Mail==null) return RedirectToAction("Connect", "User");
+            VMDaylDetails VM = new VMDaylDetails
+            {
+                Day = DAL.Get.Days.Include(m => m.Meals).Include(p => p.Plane).ToList().Find(d => d.ID == id),
+                Meal = DAL.Get.Meals.Include(m=> m.MealName).ToList().Find(m=> m.Day.ID == id)
+            };
+            return View(VM);
+
         }
 
         public IActionResult MealDetails(int? id)
@@ -82,8 +95,8 @@ namespace progectS.Controllers
                 UserID = DAL.Get.User.ID,
                 TypeOfMeals = DAL.Get.TypeOfMeals.ToList(),
                 Meal = new Meal(),
-                Plane = DAL.Get.Planes.ToList().Find(p => p.ID == id),
-                PlaneID = DAL.Get.Planes.ToList().Find(p => p.ID == id).ID   
+                Day = DAL.Get.Days.ToList().Find(D => D.ID == id),
+                DayID = DAL.Get.Days.ToList().Find(D => D.ID == id).ID   
                 
             };
             return View(VM);
@@ -94,18 +107,17 @@ namespace progectS.Controllers
         {
             if (DAL.Get.User.Mail == null) return RedirectToAction("Connect", "User");
             User user = DAL.Get.User;
-            Plane plane = DAL.Get.Planes.ToList().Find(p => p.ID == VM.PlaneID);
+            Day day = DAL.Get.Days.ToList().Find(d => d.ID == VM.DayID);
             TypeOfMeal type = DAL.Get.TypeOfMeals.ToList().Find(t => t.Id == VM.TypeId);
             Meal meal = new Meal
             {
-                Date = VM.Meal.Date,
                 MealName = type,
-                Plane = plane,
+                Day = day,
             };
-           DAL.Get.Planes.ToList().Find(p=> p.ID == plane.ID).AddMeal(meal);
+           DAL.Get.Days.ToList().Find(d=> d.ID == day.ID).AddMeal(meal);
            DAL.Get.SaveChanges();
             
-            return RedirectToAction(nameof( Details),new { id = plane.ID });
+            return RedirectToAction(nameof(DaylDetails),new { id = day.ID });
         }
 
        

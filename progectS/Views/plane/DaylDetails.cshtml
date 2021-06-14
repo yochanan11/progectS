@@ -1,0 +1,39 @@
+﻿@model progectS.VModel.VMDaylDetails
+
+@{
+    ViewData["Title"] = "DaylDetails";
+}
+
+<h1>@Model.Day.Plane.Name</h1>
+
+<div>
+    <h4>@Model.Day.DayName</h4>
+    <h4>@Model.Day.Date</h4>
+    <hr />
+</div>
+<div>
+     @Html.ActionLink("Edit", "Edit", new { /* id = Model.PrimaryKey */ }) |
+    <a asp-action="AddMeal" asp-route-id="@Model.Day.ID">הוספת ארוחה</a>
+    <a asp-action="ShowPlanes" asp-route-id="@DAL.Get.User.ID">הצגת תוכניות</a>
+</div>
+@if (Model.Day.Meals.Count > 0)
+{
+<div class="row">
+    @foreach (Meal item in Model.Day.Meals)
+    {
+        <div class="col-sm-5 my-2">
+            <div class="card">
+                <div class="card-body text-center">
+
+                    <h4 class="card-title">@item.MealName.Name</h4>
+                    <p>סה"כ קלוריות: @item.SumCalories</p>
+                    <p>סה"כ חלבונים: @item.SumProteins</p>
+                    <a asp-action="MealDetails" asp-route-id="@item.ID" class="btn btn-primary">הצג ארוחה</a>
+                </div>
+
+            </div>
+        </div>
+    }
+
+ </div>
+}

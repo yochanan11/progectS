@@ -43,6 +43,7 @@ namespace progectS.Models
         public DbSet<Plane> Planes { get; set; }
         public DbSet<Meal> Meals { get; set; }
         public DbSet<TypeOfMeal> TypeOfMeals { get; set; }
+        public DbSet<Day> Days { get; set; }
 
 
     }
