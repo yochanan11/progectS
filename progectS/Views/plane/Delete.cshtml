@@ -1,0 +1,17 @@
+﻿@model progectS.Models.Plane
+
+@{
+    ViewData["Title"] = "Delete";
+}
+
+<h1>@Model.Name</h1>
+
+<h3>האם הינך בטוח שברצונך למחוק את התוכנית?</h3>
+
+<div>
+    <hr />
+    <form asp-action="Delete">
+        <input type="submit" value="מחק" class="btn btn-danger" /> |
+        <a asp-action="ShowPlanes" asp-route-id="@DAL.Get.User.ID" class="btn btn-primary">בחזרה לרשימת התוכניות</a>
+    </form>
+</div>

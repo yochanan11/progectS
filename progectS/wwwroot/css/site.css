@@ -69,3 +69,15 @@ body {
   white-space: nowrap;
   line-height: 60px; /* Vertically center the text there */
 }
+/*----------------------*/
+.content {
+    float: right;
+    width: 580px; /* 600-20 */
+    padding: 10px;
+}
+
+.aside {
+    float: left;
+    width: 180px; /* 200-20 */
+    padding: 10px;
+}

@@ -25,6 +25,12 @@
         <dd class="col-sm-10">
             @Html.DisplayFor(model => model.Meal.SumProteins)
         </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Meal.SumCarbohydrates)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Meal.SumCarbohydrates)
+        </dd>
     </dl>
 </div>
 <div>
@@ -39,9 +45,10 @@
         <thead>
             <tr>
                 <th>@Html.DisplayNameFor(model => model.Meal.Foods.First().Food.Name)</th>
-                
-                <th>@Html.DisplayNameFor(model => model.Meal.Foods.First().Food.Caloris)</th>
 
+                <th>@Html.DisplayNameFor(model => model.Meal.Foods.First().Food.Caloris)</th>
+                <th>@Html.DisplayNameFor(model => model.Meal.Foods.First().Food.Proteins)</th>
+                <th>@Html.DisplayNameFor(model => model.Meal.Foods.First().Food.Carbohydrates)</th>
                 <th>@Html.DisplayNameFor(model => model.Meal.Foods.First().Quantity)</th>
             </tr>
         </thead>
@@ -51,18 +58,24 @@
             @foreach (FoodInMeal item in Model.Meal.Foods)
             {
 
-                <tr>
-                    <td>@Html.DisplayFor(modelItem => item.Food.Name)</td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.Food.Caloris)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.Quantity)
-                    </td>
-                    <td>
-                        @Html.ActionLink("הצג ארוחה", "MealDetails", new { id = item.ID })
-                    </td>
-                </tr>
+            <tr>
+                <td>@Html.DisplayFor(modelItem => item.Food.Name)</td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Food.Caloris)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Food.Proteins)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Food.Carbohydrates)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Quantity)
+                </td>
+                <td>
+                    @Html.ActionLink("הצג ארוחה", "MealDetails", new { id = item.ID })
+                </td>
+            </tr>
             }
 
         </tbody>

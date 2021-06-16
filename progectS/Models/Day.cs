@@ -18,6 +18,7 @@ namespace progectS.Models
         public DateTime Date { get; set; }
 
         [Display(Name = "שם יום")]
+        [DataType(DataType.Date)]
         public string DayName { get; set; }
 
         public List<Meal> Meals { get; set; }

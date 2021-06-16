@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Data.Entity;
+using System.Web.Helpers;
 
 namespace progectS.Controllers
 {
@@ -17,9 +18,9 @@ namespace progectS.Controllers
         }
         public IActionResult Edit(int? id)
         {
-            if(id == null) return RedirectToAction(nameof(Index), "user");
+            if(id == null) return RedirectToAction(nameof(ShowPlanes), new { id = DAL.Get.User.ID });
             Plane plane = DAL.Get.Planes.ToList().Find(p => p.ID == id);
-            if (plane == null) return RedirectToAction(nameof(Index), "user");
+            if (plane == null) return RedirectToAction(nameof(ShowPlanes), new { id = DAL.Get.User.ID });
             return View(plane);
 
         }
@@ -31,8 +32,26 @@ namespace progectS.Controllers
             plane1.Name = plane.Name;
             plane1.Date = plane.Date;
             DAL.Get.SaveChanges();
-            return RedirectToAction(nameof(Index), "user");
+            return RedirectToAction(nameof(ShowPlanes), new { id = DAL.Get.User.ID });
         }
+        public IActionResult Delete(int? id)
+        {
+            if (id == null) return RedirectToAction(nameof(ShowPlanes),new { id = DAL.Get.User.ID });
+            Plane plane = DAL.Get.Planes.ToList().Find(p => p.ID == id);
+            if (plane == null) return RedirectToAction(nameof(ShowPlanes), new { id = DAL.Get.User.ID });
+            return View(plane);
+        }
+        [HttpPost]
+        public IActionResult Delete(Plane plane)
+        {
+            if (plane == null) return RedirectToAction(nameof(ShowPlanes), new { id = DAL.Get.User.ID });
+            Plane plane1 = DAL.Get.Planes.Include(d=> d.Days).ToList().Find(p => p.ID == plane.ID);
+            if (plane == null) return RedirectToAction(nameof(ShowPlanes), new { id = DAL.Get.User.ID });
+            DAL.Get.Days.RemoveRange(plane1.Days);
+            DAL.Get.Planes.Remove(plane1);
+            return RedirectToAction(nameof(ShowPlanes), new { id = DAL.Get.User.ID });
+        }
+
         public IActionResult Details(int? id)
         {
             int plane = DAL.Get.Planes.ToList().Find(p => p.ID == id).ID;
@@ -73,18 +92,9 @@ namespace progectS.Controllers
         }
         public IActionResult ShowPlanes(int? id)
         {
-            if (id == null) return RedirectToAction(nameof(Index));
-            
-            List<Plane> planes = new List<Plane>();
-            foreach (Plane plane in DAL.Get.Planes)
-            {
-                if (plane.User.ID != DAL.Get.User.ID)
-                {
-                    return RedirectToAction("Connect", "user");
-                }
-                else planes.Add(plane);
-            }
-            return View(planes);
+            if (DAL.Get.User.Mail ==null) return RedirectToAction("Connect","User");
+            List<Plane> planes1 = DAL.Get.Planes.Include(d => d.Days).ToList().FindAll(p => p.User.ID == id);
+            return View(planes1);
         }
         public IActionResult AddMeal(int? id)
         {
@@ -135,13 +145,8 @@ namespace progectS.Controllers
                 {
                     Meal = meal
                 }
-            };
-           /* Meal meal = DAL.Get.Meals.ToList().Find(m => m.ID == id);
-            meal.Plane = DAL.Get.Planes.ToList().Find(p => p.ID == meal.Plane.ID);
-            FoodInMeal food = new FoodInMeal {  Meal = meal
-            };*/
+            }; 
             return View(VM);
-
         }
         [HttpPost]
         [ValidateAntiForgeryToken]
@@ -168,6 +173,8 @@ namespace progectS.Controllers
             DAL.Get.TypeOfMeals.Add(VM.Type);
             DAL.Get.SaveChanges();
             return RedirectToAction(nameof(ShowPlanes),new { id = DAL.Get.User.ID });
+       
         }
+
     }
 }

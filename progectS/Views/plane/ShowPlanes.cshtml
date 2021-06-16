@@ -19,7 +19,6 @@
                     <h4 class="card-title"> @Html.DisplayNameFor(model => model.Name)</h4>
                     <p class="card-text"> @Html.DisplayFor(modelItem => item.Name)</p>
                     <h5 class="card-title"> @Html.DisplayNameFor(model => model.Date)</h5>
-
                     <p class="card-text"> @Html.DisplayFor(modelItem => item.Date)</p>
                     <a asp-action="Edit" asp-route-id="@item.ID" class="btn btn-primary">ערוך תוכנית</a>
                     <a asp-action="Details" asp-route-id="@item.ID" class="btn btn-primary">פרטי תוכנית</a>
@@ -27,9 +26,7 @@
                 </div>
             </div>
         </div>
-
-
     }
-
+</div>
 
 

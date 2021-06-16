@@ -51,6 +51,20 @@ namespace progectS.Models
                 return (int)Sum;
             }
         }
+        [Display(Name = "סה''כ פחמימות")]
+        public int SumCarbohydrates//סה"כ פחמימות
+        {
+            get
+            {
+                double Sum = 0;
+                foreach (FoodInMeal food in Foods)
+                {
+                    if (food.Quantity == 0 || food.Food.Carbohydrates == 0) return (int)Sum;
+                    Sum += food.Food.Carbohydrates * food.Quantity;
+                }
+                return (int)Sum;
+            }
+        }
 
         public void AddFoods(List<Food> foods) //להוסיף אוכל בתוך ארוחה
         {

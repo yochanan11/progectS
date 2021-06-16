@@ -13,7 +13,7 @@
     <header>
         <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
             <div class="container">
-                <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">progectS</a>
+                <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">מערכת הבריאות שלי</a>
                 <button class="navbar-toggler" type="button" data-toggle="collapse" data-target=".navbar-collapse" aria-controls="navbarSupportedContent"
                         aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
@@ -21,11 +21,32 @@
                 <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
                     <ul class="navbar-nav flex-grow-1">
                         <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
+                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">דף הבית</a>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
                         </li>
+
+                        @if (DAL.Get.User.FirstName != "התחבר")
+                        {
+                            @if (DAL.Get.Planes.ToList().Count > 0)
+                            {
+                                <li class="nav-item dropdown">
+                                    <a class="nav-link dropdown-toggle" href="#" id="navbardrop" data-toggle="dropdown">
+                                        התוכניות שלי
+                                    </a>
+                                    <div class="dropdown-menu">
+
+                                        @foreach (Plane plane in DAL.Get.Planes.ToList().FindAll(p => p.User.ID == DAL.Get.User.ID))
+                                        {
+                                            <a class="dropdown-item" asp-controller="Plane" asp-action="Details" asp-route-id="@plane.ID">
+                                                @plane.Name
+                                            </a>
+                                        }
+                                    </div>
+                                </li>
+                            }
+                        }
                         @if (DAL.Get.User.FirstName == "התחבר")
                         {
 
@@ -72,6 +93,7 @@
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     <script src="~/js/site.js" asp-append-version="true"></script>
     <script src="~/js/connect.js"></script>
+    <script src="~/js/Chart.js"></script>
     @await RenderSectionAsync("Scripts", required: false)
 </body>
 </html>

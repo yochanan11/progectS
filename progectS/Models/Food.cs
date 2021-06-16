@@ -21,6 +21,9 @@ namespace progectS.Models
         [Display(Name = "מספר החלבונים")]
         public int Proteins { get; set; }
 
+        [Display(Name = "מספר הפחמימות")]
+        public int Carbohydrates { get; set; }
+
 
         [Display(Name = "תמונה")]
         public byte[] Photo { get; set; }

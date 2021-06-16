@@ -27,7 +27,7 @@ namespace progectS.Controllers
             User user1 = DAL.Get.Users.ToList().Find(u => u.Mail == user.Mail && u.Password == user.Password);
             if (user1 == null) return RedirectToAction(nameof(NoConnect));
             DAL.Get.User = user1;
-            return RedirectToAction("ShowPlanes", "plane",new {id=user.ID });
+            return RedirectToAction("ShowPlanes", "plane",new {id=DAL.Get.User.ID });
         }
 
         [HttpPost]
@@ -37,7 +37,7 @@ namespace progectS.Controllers
             DAL.Get.Users.Add(user);
             DAL.Get.User = user;
             DAL.Get.SaveChanges();
-            return RedirectToAction("ShowPlanes", "plane",new { id = user.ID });
+            return RedirectToAction("ShowPlanes", "plane",new { id = DAL.Get.User.ID });
         }
 
         public IActionResult NoConnect()
@@ -87,6 +87,20 @@ namespace progectS.Controllers
             user.AddPlan(plane);
             DAL.Get.SaveChanges();
             return RedirectToAction("ShowPlanes", "plane", new { id = user.ID });
+        }
+        public IActionResult graph()
+        {
+            if (DAL.Get.User.Mail == null) return RedirectToAction(nameof(Connect));
+            int cuont = DAL.Get.User.Weight.Count;
+            int[] Arry = new int[cuont];
+
+            foreach (var item in DAL.Get.User.Weight)
+            {
+                int i = 0;
+                Arry[i] = (int)item.MyWeight;
+                i++;
+            }
+            return View(Arry);
         }
     }
 }

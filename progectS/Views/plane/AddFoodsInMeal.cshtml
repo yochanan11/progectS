@@ -1,13 +1,17 @@
 ﻿@model progectS.VModel.VMAddFoodInMeal
 
 @{
-    ViewData["Title"] = "הוספת מאעל לארוחה";
+    ViewData["Title"] = "הוספת מאכל לארוחה";
 }
 
-<h1>הוסף מאכל ל@Model.Meal.MealName.Name</h1>
+<h1>@Model.Meal.MealName.Name</h1>
 
 
 <hr />
+<div>
+    <a asp-action="MealDetails" asp-route-id="@Model.MealID" class="btn btn-primary">בחזרה לארוחה</a>
+</div>
+<br />
 <div class="row">
     <div class="col-md-4">
         <form asp-action="AddFoodsInMeal">
@@ -38,9 +42,7 @@
     </div>
 </div>
 
-<div>
-    <a asp-action="Index">Back to List</a>
-</div>
+
 
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
