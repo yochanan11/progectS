@@ -1,0 +1,54 @@
+﻿@model progectS.VModel.VMToDay
+
+<div>
+    <h1>@DAL.Get.User.FuulName</h1>
+    <h4>@DAL.Get.User.Age</h4>
+    <a asp-controller="plane" asp-action="Details" asp-route-id="@Model.Day.Plane.ID"> <h4>@Model.Day.Plane.Name</h4></a>
+    <a asp-controller="plane" asp-action="DaylDetails" asp-route-id="@Model.Day.ID"> <h4>@Model.Day.DayName @Model.Day.Date.Date</h4></a>
+       
+        <hr />
+        <dl class="row">
+            @foreach (MealToDAy item in Model.ToDAy.MealsToDay)
+            {
+                <dt class="col-sm-2">
+                    @Html.DisplayNameFor(model => item.MealNameToDay.Name)
+                </dt>
+                <dd class="col-sm-10">
+                    @Html.DisplayFor(model => item.MealNameToDay.Name)
+                </dd>@if (item.Foods.Count > 0)
+                { 
+                    @foreach (TodayFoodInMeal food in item.Foods)
+                    {
+                        <dt class="col-sm-2">
+                            @Html.DisplayNameFor(model => food.Food.Name)
+                        </dt>
+                        <dd class="col-sm-10">
+                            @Html.DisplayFor(model => food.Food.Name)
+                        </dd>
+                    }
+                }
+            }
+            <dt class="col-sm-2">
+                @Html.DisplayNameFor(model => model.TypeId)
+            </dt>
+            <dd class="col-sm-10">
+                @Html.DisplayFor(model => model.TypeId)
+            </dd>
+            <dt class="col-sm-2">
+                @Html.DisplayNameFor(model => model.Date)
+            </dt>
+            <dd class="col-sm-10">
+                @Html.DisplayFor(model => model.Date)
+            </dd>
+            <dt class="col-sm-2">
+                @Html.DisplayNameFor(model => model.FoodId)
+            </dt>
+            <dd class="col-sm-10">
+                @Html.DisplayFor(model => model.FoodId)
+            </dd>
+        </dl>
+</div>
+<div>
+    @Html.ActionLink("Edit", "Edit", new { /* id = Model.PrimaryKey */ }) |
+    <a asp-action="Index">Back to List</a>
+</div>

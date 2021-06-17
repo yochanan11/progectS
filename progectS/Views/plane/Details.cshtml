@@ -1,10 +1,11 @@
 ﻿@model progectS.VModel.VMPlaneDetails
 
-<div>
-    <h4>@Model.Plane.Name</h4>
+<input type ="button" onclick="load()" />
+<div onload="load()">
+    <h4 >@Model.Plane.Name</h4>
     <hr />
     <dl class="row">
- 
+
         <dt class="col-sm-2">
             @Html.DisplayNameFor(model => model.Plane.Date)
         </dt>
@@ -18,6 +19,9 @@
     @Html.ActionLink("הוסף ארוחה לתוכנית", "AddMeal", new { id = Model.Plane.ID }) |
 
     <a asp-action="ShowPlanes" asp-route-id="@Model.Plane.User.ID">Back to List</a>
+</div>
+<div class="aside" style=" width:100%;max-width:500px">
+    <canvas id="myChart" style="width:100%;max-width:450px"></canvas>
 </div>
 @if (Model.Plane.Days.Count > 0)
 {
@@ -35,22 +39,45 @@
 
             @foreach (Day item in Model.Plane.Days)
             {
-               
-            <tr>
-                <td>@Html.DisplayFor(modelItem => item.Date)</td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.DayName)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Plane.Name)
-                </td>
-                <td>
-                    @Html.ActionLink("הצג ארוחות", "DaylDetails", new { id = item.ID })
-                </td>
 
-            </tr>
+                <tr>
+                    <td>@Html.DisplayFor(modelItem => item.Date)</td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.DayName)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Plane.Name)
+                    </td>
+                    <td>
+                        @Html.ActionLink("הצג ארוחות", "DaylDetails", new { id = item.ID })
+                    </td>
+
+                </tr>
             }
 
         </tbody>
     </table>
 }
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.5.0/Chart.min.js"></script>
+
+
+<script>
+    function load(id) {
+    $.getJSON("/plane/Chart", { id= id },
+        function (data) {
+            data1 = data;
+        }
+        )
+    
+    var data1="";
+    var xValues = [100, 200, 300, 400, 500, 600, 700, 800, 900, 1000];
+
+    new Chart("myChart", {
+        type: "line",
+        data: data1,
+        options: {
+            legend: { display: false }
+        }
+    });
+    };
+</script>

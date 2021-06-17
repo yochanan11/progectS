@@ -8,6 +8,10 @@ namespace progectS.Models
 {
     public class Day
     {
+        public Day()
+        {
+            Meals = new List<Meal>();
+        }
         [Key]
         public int ID { get; set; }
 
@@ -18,7 +22,6 @@ namespace progectS.Models
         public DateTime Date { get; set; }
 
         [Display(Name = "שם יום")]
-        [DataType(DataType.Date)]
         public string DayName { get; set; }
 
         public List<Meal> Meals { get; set; }
@@ -27,6 +30,20 @@ namespace progectS.Models
         {
             Meals.Add(meal);
             meal.Day = this;
+        }
+        public SumALLProperties SumALLProperties
+        {
+            get
+            {
+                SumALLProperties Sum = new SumALLProperties(0, 0, 0);
+                foreach (Meal Meal in Meals)
+                {
+                    Sum.SumCaloris += Meal.SumCalories;
+                    Sum.SumCarbohydrates  += Meal.SumCarbohydrates;
+                    Sum.SumProteins += Meal.SumProteins;
+                }
+                return Sum;
+            }
         }
     }
 }

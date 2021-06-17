@@ -40,8 +40,10 @@
         </dd>
     </dl>
 </div>
-
-<a class="btn btn-primary" onclick="AddIndices()">הוספת משקל</a>
+<div cllas="row">
+    <a class="btn btn-primary" asp-controller="user" asp-action="ShowToDay" asp-route-id="@DAL.Get.User.ID">מה מצבי היום</a>
+    <a class="btn btn-primary" onclick="AddIndices()">הוספת משקל</a>
+</div>
 <div id="AddIndices" style="display:none">
     <div class="row">
         <div class="col-md-4">

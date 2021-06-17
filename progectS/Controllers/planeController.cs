@@ -7,6 +7,9 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.Data.Entity;
 using System.Web.Helpers;
+using System.Web.WebPages;
+using System.Text.Json;
+using System.Text.Json.Serialization;
 
 namespace progectS.Controllers
 {
@@ -67,10 +70,12 @@ namespace progectS.Controllers
         {
             if (id <1) return RedirectToAction("Index", "home");
             if(DAL.Get.User.Mail==null) return RedirectToAction("Connect", "User");
+           List<FoodInMeal> foodIns = DAL.Get.FoodsInMeal.Include(f => f.Food).ToList();
             VMDaylDetails VM = new VMDaylDetails
             {
-                Day = DAL.Get.Days.Include(m => m.Meals).Include(p => p.Plane).ToList().Find(d => d.ID == id),
-                Meal = DAL.Get.Meals.Include(m=> m.MealName).ToList().Find(m=> m.Day.ID == id)
+                Meal = DAL.Get.Meals.Include(m => m.MealName).Include(m => m.Foods).ToList().Find(m => m.Day.ID == id),
+                Day = DAL.Get.Days.Include(m => m.Meals).Include(p => p.Plane).ToList().Find(d => d.ID == id)
+
             };
             return View(VM);
 
@@ -175,6 +180,52 @@ namespace progectS.Controllers
             return RedirectToAction(nameof(ShowPlanes),new { id = DAL.Get.User.ID });
        
         }
+        [HttpGet]
+        public IActionResult Chart(int? id)
+        {
+            Plane plane = DAL.Get.Planes.ToList().Find(p => p.ID == id);
+            string data = "" +                 
+              "{" +
+              "labels: xValues," +
+              "datasets:" +
+                 " [" +
 
+                      "{" +
+                  "data:[";
+            for (int i = 0; i < plane.Days.Count; i++)
+            {
+
+                data += plane.Days[i].SumALLProperties.SumCaloris;
+                if (i != plane.Days.Count - 1) data += ",";
+            }
+            data += "]," +
+            "borderColor: 'red'," +
+           " fill: false" +
+        "}, {" +
+            "data:[";
+            for (int i = 0; i < plane.Days.Count; i++)
+            {
+
+                data += plane.Days[i].SumALLProperties.SumProteins;
+                if (i != plane.Days.Count - 1) data += ",";
+            }
+            data += "]," +
+                "borderColor: 'green'," +
+                "fill: false" +
+             "}, {" +
+               " data:[";
+            for (int i = 0; i < plane.Days.Count; i++)
+            {
+
+                data += plane.Days[i].SumALLProperties.SumCarbohydrates;
+                if (i != plane.Days.Count - 1) data += ",";
+            }
+            data += "]," +
+                "borderColor: 'blue'," +
+                "fill: false"
+             + "}]" +
+       " }';'";
+            return Json(data);
+        }
     }
 }

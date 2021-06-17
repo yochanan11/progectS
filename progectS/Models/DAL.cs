@@ -44,6 +44,9 @@ namespace progectS.Models
         public DbSet<Meal> Meals { get; set; }
         public DbSet<TypeOfMeal> TypeOfMeals { get; set; }
         public DbSet<Day> Days { get; set; }
+        public DbSet<ToDAy> ToDAys { get; set; }
+        public DbSet<TodayFoodInMeal> TodayFoodsInMeal { get; set; }
+        public DbSet<MealToDAy> MealsToDAy { get; set; }
 
 
     }

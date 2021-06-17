@@ -23,6 +23,15 @@ namespace progectS.Models
        
         [Display(Name = "רשימת האוכל בתוך הארוחה")]
         public List<FoodInMeal> Foods { get; set; }//רשימת האוכל בתוך הארוחה
+
+        public SumALLProperties SumALLProperties
+        {
+            get
+            {
+                return new SumALLProperties(SumCalories, SumCarbohydrates, SumProteins);
+            }
+        }
+
         [Display(Name = "סה''כ קלוריות")]
         public int SumCalories//סה"כ קלוריות
         {
@@ -31,7 +40,7 @@ namespace progectS.Models
                 double Sum = 0;
                 foreach (FoodInMeal food in Foods)
                 {
-                    if (food.Quantity == 0 || food.Food.Caloris == 0) return (int)Sum;
+                    if (food.Quantity > 0 || food.Food.Caloris > 0) 
                     Sum += food.Food.Caloris*food.Quantity;
                 }
                 return (int)Sum;
@@ -45,7 +54,7 @@ namespace progectS.Models
                 double Sum = 0;
                 foreach (FoodInMeal food in Foods)
                 {
-                    if (food.Quantity == 0 || food.Food.Proteins == 0) return (int)Sum;
+                    if (food.Quantity > 0 || food.Food.Proteins> 0)
                     Sum += food.Food.Proteins * food.Quantity;
                 }
                 return (int)Sum;
@@ -59,7 +68,7 @@ namespace progectS.Models
                 double Sum = 0;
                 foreach (FoodInMeal food in Foods)
                 {
-                    if (food.Quantity == 0 || food.Food.Carbohydrates == 0) return (int)Sum;
+                    if (food.Quantity > 0 || food.Food.Carbohydrates > 0)
                     Sum += food.Food.Carbohydrates * food.Quantity;
                 }
                 return (int)Sum;
@@ -84,5 +93,17 @@ namespace progectS.Models
         }
        
 
+    }
+    public class SumALLProperties
+    {
+        public SumALLProperties(int SumC, int SumCh, int SumP)
+        {
+            SumCaloris = SumC; SumCarbohydrates = SumCh; SumProteins = SumP;
+        }
+        public int SumCaloris;
+
+        public int SumCarbohydrates;
+
+        public int SumProteins;
     }
 }
