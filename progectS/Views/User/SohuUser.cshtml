@@ -9,36 +9,52 @@
 <div>
     <h4>@Model.User.FuulName</h4>
     <hr />
-    <dl class="row">
-        
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.User.BirthOfDate)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.User.BirthOfDate)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.User.Mail)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.User.Mail)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.User.Password)
-        </dt>
-        
-        <dd class="col-sm-10">
-            <a href="#" id="ShowPassword" onclick="ShowPassword()">הצג סיסמה</a>
-            <p  id="Password" style="display: none">@Html.DisplayFor(model => model.User.Password)</p>
-        </dd>
-        
-        <dt class = "col-sm-2" >
-            @Html.DisplayNameFor(model => model.User.Age)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.User.Age)
-        </dd>
-    </dl>
+    <div class="content" style=" width:100%;max-width:550px">
+        <dl class="row card">
+            <div class="card-header bg-light">
+
+                הפרטים שלי
+            </div>
+            <dt class="col-sm-2">
+                @Html.DisplayNameFor(model => model.User.BirthOfDate)
+            </dt>
+            <dd class="col-sm-10">
+                @Html.DisplayFor(model => model.User.BirthOfDate)
+            </dd>
+            <dt class="col-sm-2">
+                @Html.DisplayNameFor(model => model.User.Mail)
+            </dt>
+            <dd class="col-sm-10">
+                @Html.DisplayFor(model => model.User.Mail)
+            </dd>
+            <dt class="col-sm-2">
+                @Html.DisplayNameFor(model => model.User.Password)
+            </dt>
+
+            <dd class="col-sm-10">
+                <a href="#" id="ShowPassword" onclick="ShowPassword()">הצג סיסמה</a>
+                <p id="Password" style="display: none">@Html.DisplayFor(model => model.User.Password)</p>
+            </dd>
+
+            <dt class="col-sm-2">
+                @Html.DisplayNameFor(model => model.User.Age)
+            </dt>
+            <dd class="col-sm-10">
+                @Html.DisplayFor(model => model.User.Age)
+            </dd>
+        </dl>
+    </div>
+</div>
+<div class="aside" style=" width:100%;max-width:500px">
+    <div class="card">
+        <div class="card-header">
+
+המשקל שלי
+        </div>
+        <div class="aside" style=" width:100%;max-width:500px">
+            <canvas id="myChart" style="width:100%;max-width:450px"></canvas>
+        </div>
+    </div>
 </div>
 <div cllas="row">
     <a class="btn btn-primary" asp-controller="user" asp-action="ShowToDay" asp-route-id="@DAL.Get.User.ID">מה מצבי היום</a>
@@ -49,15 +65,15 @@
         <div class="col-md-4">
             <form asp-action="AddIndices">
                 <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-                
-                
+
+
                 <div class="form-group">
                     <label asp-for="Weight.MyWeight" class="control-label"></label>
                     <input asp-for="Weight.MyWeight" class="form-control" />
                     <span asp-validation-for="Weight.MyWeight" class="text-danger"></span>
                 </div>
                 <div class="form-group">
-                    <input type="submit" value="דווח" class="btn btn-primary" onclick="NoAddIndices()"/>
+                    <input type="submit" value="דווח" class="btn btn-primary" onclick="NoAddIndices()" />
                 </div>
             </form>
         </div>
@@ -68,7 +84,9 @@
     <a asp-controller="plane" asp-action="ShowPlanes" asp-route-id="@Model.User.ID">הצג את התוכניות שלי</a>|
     <a asp-action="Index">Back to List</a>
 </div>
-@if(Model.User.Weight.Count > 0) {
+@if (Model.User.Weight.Count > 0)
+{
+
     <h4> דוח משקל </h4>
     <table class="table">
         <thead>
@@ -85,20 +103,48 @@
 
             @foreach (Weight item in Model.User.Weight)
             {
-            <tr>
-                <td>
-                    @Html.DisplayFor(modelItem => item.ID)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Date)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.MyWeight)
-                </td>
-            </tr>
-                    }
-               
-            </tbody>
-</table>
-}
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.ID)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Date)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.MyWeight)
+                    </td>
+                </tr>
+            }
 
+        </tbody>
+    </table>
+}
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.js"></script>
+
+<script>
+
+
+        var Weight =@Html.Raw(Json.Serialize (ViewBag.Weight));
+        var Days =@Html.Raw(Json.Serialize (ViewBag.Days));
+
+        var xValues = Days;
+
+             new Chart("myChart", {
+        type: "line",
+        data: {
+             labels: xValues,
+            datasets: [{
+                data: Weight,
+                borderColor: "red",
+                fill: false
+
+            }]
+        },
+        options: {
+             legend: { display: false }
+             }
+             });
+        var xValues = Days;
+
+
+</script>

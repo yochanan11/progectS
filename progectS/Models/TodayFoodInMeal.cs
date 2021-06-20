@@ -11,10 +11,15 @@ namespace progectS.Models
         [Key]
         public int ID { get; set; }
 
+        [Display(Name = "לאיזה ארוחה שייך")]
         public MealToDAy MealToDAy{ get; set; }
-
+        [Display(Name = "שם המאכל")]
         public Food Food { get; set; }
 
+        [Display(Name = "מצב הרוח")]
+        public string Mood { get; set; }
+
+        [Display(Name = "כמות")]
         public double Quantity { get; set; }//כמות
     }
 }

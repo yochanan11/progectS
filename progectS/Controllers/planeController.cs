@@ -15,8 +15,10 @@ namespace progectS.Controllers
 {
     public class planeController : Controller
     {
-        public IActionResult Index()
+
+        public IActionResult Index(int? id)
         {
+            
             return View();
         }
         public IActionResult Edit(int? id)
@@ -57,12 +59,47 @@ namespace progectS.Controllers
 
         public IActionResult Details(int? id)
         {
+            List<FoodInMeal> foodIns = DAL.Get.FoodsInMeal.Include(f => f.Food).ToList();
+            List<TodayFoodInMeal> foodInsT = DAL.Get.TodayFoodsInMeal.Include(f => f.Food).ToList();
             int plane = DAL.Get.Planes.ToList().Find(p => p.ID == id).ID;
             VMPlaneDetails VM = new VMPlaneDetails
             {
                 Plane = DAL.Get.Planes.Include(d=> d.Days).ToList().Find(p => p.ID == id),
-                Day = DAL.Get.Days.ToList().Find(d=> d.Plane.ID == id)
+                Day = DAL.Get.Days. Include(d=> d.Meals).ToList().Find(d=> d.Plane.ID == id),
+                Meal = DAL.Get.Meals.Include(m => m.MealName).Include(m => m.Foods).ToList().Find(m => m.Day.ID == id),
+                MealToDAy = DAL.Get.MealsToDAy.Include(m => m.MealNameToDay).Include(m => m.Foods).ToList().Find(m => m.ToDay.ID == id)
             };
+            var caloris = new int[7];
+            var Proteins = new int[7];
+            var Carbohydrates = new int[7];
+            var calorisToday = new int[7];
+            var ProteinsToday = new int[7];
+            var CarbohydratesToday = new int[7];
+            var Days = new int[7];
+            Plane plane1 = DAL.Get.Planes.ToList().Find(p => p.ID == id);
+            
+            for (int i = 0; i < plane1.Days.Count; i++)
+            {
+                caloris[i] = plane1.Days[i].SumALLProperties.SumCaloris;
+                Carbohydrates[i] = plane1.Days[i].SumALLPropertiesToDay.SumCarbohydrates;
+                Proteins[i] = plane1.Days[i].SumALLProperties.SumProteins;
+                calorisToday[i] = plane1.Days[i].SumALLPropertiesToDay.SumCaloris;
+                ProteinsToday[i] = plane1.Days[i].SumALLPropertiesToDay.SumProteins;
+                Carbohydrates[i] = plane1.Days[i].SumALLProperties.SumCarbohydrates;
+            }
+            int x = 0;
+            foreach (Day item in plane1.Days)
+            {
+                Days[x] = item.Date.Day;
+                x++;
+            }
+            ViewBag.Carbohydrates = Carbohydrates;
+            ViewBag.Proteins = Proteins;
+            ViewBag.caloris = caloris;
+            ViewBag.CarbohydratesToday = CarbohydratesToday;
+            ViewBag.ProteinsToday = ProteinsToday;
+            ViewBag.calorisToday = calorisToday;
+            ViewBag.Days = Days;
             return View(VM);
         }
 
@@ -70,11 +107,13 @@ namespace progectS.Controllers
         {
             if (id <1) return RedirectToAction("Index", "home");
             if(DAL.Get.User.Mail==null) return RedirectToAction("Connect", "User");
-           List<FoodInMeal> foodIns = DAL.Get.FoodsInMeal.Include(f => f.Food).ToList();
+            List<TodayFoodInMeal> todays = DAL.Get.TodayFoodsInMeal.Include(f => f.Food).ToList();
+            List<FoodInMeal> foodIns = DAL.Get.FoodsInMeal.Include(f => f.Food).ToList();
             VMDaylDetails VM = new VMDaylDetails
             {
                 Meal = DAL.Get.Meals.Include(m => m.MealName).Include(m => m.Foods).ToList().Find(m => m.Day.ID == id),
-                Day = DAL.Get.Days.Include(m => m.Meals).Include(p => p.Plane).ToList().Find(d => d.ID == id)
+                Day = DAL.Get.Days.Include(m => m.Meals).Include(p => p.Plane).ToList().Find(d => d.ID == id),
+                MealToD = DAL.Get.MealsToDAy.Include(m => m.MealNameToDay).Include(m => m.Foods).ToList().Find(m => m.ToDay.ID == id)
 
             };
             return View(VM);
@@ -180,52 +219,6 @@ namespace progectS.Controllers
             return RedirectToAction(nameof(ShowPlanes),new { id = DAL.Get.User.ID });
        
         }
-        [HttpGet]
-        public IActionResult Chart(int? id)
-        {
-            Plane plane = DAL.Get.Planes.ToList().Find(p => p.ID == id);
-            string data = "" +                 
-              "{" +
-              "labels: xValues," +
-              "datasets:" +
-                 " [" +
-
-                      "{" +
-                  "data:[";
-            for (int i = 0; i < plane.Days.Count; i++)
-            {
-
-                data += plane.Days[i].SumALLProperties.SumCaloris;
-                if (i != plane.Days.Count - 1) data += ",";
-            }
-            data += "]," +
-            "borderColor: 'red'," +
-           " fill: false" +
-        "}, {" +
-            "data:[";
-            for (int i = 0; i < plane.Days.Count; i++)
-            {
-
-                data += plane.Days[i].SumALLProperties.SumProteins;
-                if (i != plane.Days.Count - 1) data += ",";
-            }
-            data += "]," +
-                "borderColor: 'green'," +
-                "fill: false" +
-             "}, {" +
-               " data:[";
-            for (int i = 0; i < plane.Days.Count; i++)
-            {
-
-                data += plane.Days[i].SumALLProperties.SumCarbohydrates;
-                if (i != plane.Days.Count - 1) data += ",";
-            }
-            data += "]," +
-                "borderColor: 'blue'," +
-                "fill: false"
-             + "}]" +
-       " }';'";
-            return Json(data);
-        }
+        
     }
 }

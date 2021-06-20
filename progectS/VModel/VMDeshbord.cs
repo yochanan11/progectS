@@ -6,12 +6,8 @@ using System.Threading.Tasks;
 
 namespace progectS.VModel
 {
-    public class VMDaylDetails
+    public class VMDeshbord
     {
-        public Day Day { get; set; }
-
-        public Meal Meal { get; set; }
-
-        public MealToDAy MealToD { get; set; }
+        public User User { get; set; }
     }
 }

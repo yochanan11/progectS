@@ -8,7 +8,7 @@
 
 <div>
     <h4>@Model.Day.DayName</h4>
-    <h4>@Model.Day.Date</h4>
+    <h4>@Model.Day.Date.Date</h4>
     <hr />
 </div>
 <div>
@@ -16,13 +16,44 @@
     <a asp-action="AddMeal" asp-route-id="@Model.Day.ID">הוספת ארוחה</a>|
     <a asp-action="ShowPlanes" asp-route-id="@DAL.Get.User.ID">הצגת תוכניות</a>
 </div>
-<div class="aside" style=" width:100%;max-width:500px">
-    <canvas id="myChart" style="width:100%;max-width:450px"></canvas>
+<div class="aside" style=" width:100%;max-width:550px">
+    @if (Model.Day.Meals.Count > 0)
+    {
+        <div>
+            @Html.ActionLink("Edit", "Edit", new { /* id = Model.PrimaryKey */ }) |
+            <a asp-action="AddMealToDay" asp-controller="ToDay" asp-route-id="@Model.Day.ID">הוספת ארוחה</a>|
+            <a asp-action="ShowPlanes" asp-route-id="@DAL.Get.User.ID">הצגת תוכניות</a>
+        </div>
+        <h4>ארוחות שאכלתי היום</h4>
+        <div class="row">
+            @foreach (MealToDAy item in Model.Day.MealsToDAy)
+            {
+
+                <div class="col-sm-5 my-2">
+                    <div class="card">
+                        <div class="card-body text-center">
+
+                            <h4 class="card-title">@item.MealNameToDay.Name</h4>
+                            <p>סה"כ קלוריות: @item.SumCaloriesT</p>
+                            <p>סה"כ חלבונים:  @item.SumCaloriesT</p>
+                            <p>סה"כ פחמימות:  @item.SumCaloriesT</p>
+                            <a asp-action="ToMealDetails" asp-controller="ToDay" asp-route-id="@item.ID" class="btn btn-primary">הצג ארוחה</a>
+                           
+                        </div>
+
+                    </div>
+                </div>
+            }
+
+        </div>
+
+    }
 </div>
 <div class="content">
     @if (Model.Day.Meals.Count > 0)
     {
-
+        
+        <h4>ארוחות שאני אמור לאכול  היום</h4>
         <div class="row">
             @foreach (Meal item in Model.Day.Meals)
             {

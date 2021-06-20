@@ -11,5 +11,9 @@ namespace progectS.VModel
         public Plane Plane { get; set; }
 
         public Day Day { get; set; }
+
+        public Meal Meal { get; set; }
+
+        public MealToDAy MealToDAy { get; set; }
     }
 }

@@ -14,7 +14,7 @@ namespace progectS.VModel
 
         public User User { get; set; }
 
-        public ToDAy ToDAy { get; set; }
+        
 
         public MealToDAy MealToDAy { get; set; }
 

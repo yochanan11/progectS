@@ -42,7 +42,22 @@ namespace progectS.Models
                 return Sum;
             }
         }
-        
+
+        public SumALLProperties SumALLPropertiesToDay
+        {
+            get
+            {
+                SumALLProperties Sum = new SumALLProperties(0, 0, 0);
+                foreach (Day Day in Days)
+                {
+                    Sum.SumCaloris += Day.SumALLPropertiesToDay.SumCaloris;
+                    Sum.SumCarbohydrates += Day.SumALLProperties.SumCarbohydrates;
+                    Sum.SumProteins += Day.SumALLProperties.SumProteins;
+                }
+                return Sum;
+            }
+        }
+
         public void AddDays()
         {
             string[] Darry = new string[7];

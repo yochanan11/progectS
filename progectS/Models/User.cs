@@ -14,7 +14,6 @@ namespace progectS.Models
             Plans = new List<Plane>();
             Weight = new List<Weight>();
             BirthOfDate = DateTime.Now;
-            ToDAys = new List<ToDAy>();
         }
 
         [Key]
@@ -51,7 +50,7 @@ namespace progectS.Models
 
         public List<Weight> Weight { get; set; }//,משקל
 
-        public List<ToDAy> ToDAys { get; set; }
+      
 
         [Display(Name = "גיל")]
         public int Age//נותן את הגיל
@@ -75,16 +74,16 @@ namespace progectS.Models
             /*Weight.Add(new Weight { MyWeight = weight, User = this });*/
         }
 
-        public void AddFoodToDAy(DateTime day , Food food , TypeOfMeal type ,double quantity, string mood)
-        {
-            ToDAy ToDAy;
-            ToDAy = ToDAys.Find(t => t.Date == day); 
-            if(ToDAy ==null)
-            {
-                ToDAy = new ToDAy { Date = day, User = this,Mood=mood};
-                ToDAys.Add(ToDAy);
-            }
-            ToDAy.AddFood(food, type, quantity);
-        }
     }
 }
+/*public void AddFoodToDAy(DateTime day, Food food, TypeOfMeal type, double quantity, string mood)
+{
+    ToDAy ToDAy;
+    ToDAy = ToDAys.Find(t => t.Date == day);
+    if (ToDAy == null)
+    {
+        ToDAy = new ToDAy { Date = day, User = this };
+        ToDAys.Add(ToDAy);
+    }
+    ToDAy.AddFood(food, type, quantity, mood);
+}*/
