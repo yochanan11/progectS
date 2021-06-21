@@ -41,15 +41,16 @@
 @if (Model.Meal.Foods.Count > 0)
 {
     <h4> האוכל שבתוך הארוחה </h4>
-    <table class="table">
+    <table class="table table-success text-center">
         <thead>
-            <tr>
-                <th>@Html.DisplayNameFor(model => model.Meal.Foods.First().Food.Name)</th>
+            <tr class="text-center">
+                <th class="text-center">@Html.DisplayNameFor(model => model.Meal.Foods.First().Food.Name)</th>
 
-                <th>@Html.DisplayNameFor(model => model.Meal.Foods.First().Food.Caloris)</th>
-                <th>@Html.DisplayNameFor(model => model.Meal.Foods.First().Food.Proteins)</th>
-                <th>@Html.DisplayNameFor(model => model.Meal.Foods.First().Food.Carbohydrates)</th>
-                <th>@Html.DisplayNameFor(model => model.Meal.Foods.First().Quantity)</th>
+                <th class="text-center">@Html.DisplayNameFor(model => model.Meal.Foods.First().Food.Caloris)</th>
+                <th class="text-center">@Html.DisplayNameFor(model => model.Meal.Foods.First().Food.Proteins)</th>
+                <th class="text-center">@Html.DisplayNameFor(model => model.Meal.Foods.First().Food.Carbohydrates)</th>
+                <th class="text-center">@Html.DisplayNameFor(model => model.Meal.Foods.First().Quantity)</th>
+                <th class="text-center"></th>
             </tr>
         </thead>
 

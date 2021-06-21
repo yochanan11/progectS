@@ -1,0 +1,153 @@
+﻿
+@{
+    ViewData["Title"] = "Deshbord";
+}
+
+<h1>מה המצב הכללי שלי</h1>
+<hr />
+<div class="content">
+    <div class="card">
+        <div class="card-header">
+            המצב בתוכנית
+        </div>
+        <div class="aside" style=" width:100%;max-width:500px">
+            <canvas id="myChart" style="width:100%;max-width:450px"></canvas>
+        </div>
+    </div>
+</div>
+
+<div class="aside" style=" width:100%;max-width:550px">
+    <div class="card">
+        <div class="card-header">
+            המצב בפועל
+        </div>
+        <div class="aside" style=" width:100%;max-width:500px">
+            <canvas id="myChart1" style="width:100%;max-width:450px"></canvas>
+        </div>
+    </div>
+</div>
+<div class="content">
+    <div class="card">
+        <div class="card-header">
+            מצב המשקל
+        </div>
+        <div class="aside" style=" width:100%;max-width:500px">
+            <canvas id="myChartW" style="width:100%;max-width:450px"></canvas>
+        </div>
+    </div>
+</div>
+
+<div class="aside" style=" width:100%;max-width:550px">
+    <div class="card">
+        <div class="card-header">
+מצב הקלוריות
+        </div>
+        <div class="aside" style=" width:100%;max-width:500px">
+            <canvas id="myChartC_C" style="width:100%;max-width:450px"></canvas>
+        </div>
+    </div>
+</div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.5.0/Chart.min.js"></script>
+
+
+<script>
+
+     var Proteins =@Html.Raw(Json.Serialize (ViewBag.Proteins));
+     var caloris =@Html.Raw(Json.Serialize (ViewBag.caloris));
+     var Carbohydrates =@Html.Raw(Json.Serialize (ViewBag.Carbohydrates));
+     var ProteinsToday =@Html.Raw(Json.Serialize (ViewBag.ProteinsToday));
+     var calorisToday =@Html.Raw(Json.Serialize (ViewBag.calorisToday));
+     var CarbohydratesToday =@Html.Raw(Json.Serialize (ViewBag.CarbohydratesToday));
+    var Days =@Html.Raw(Json.Serialize (ViewBag.Days));
+    var Weight =@Html.Raw(Json.Serialize (ViewBag.Weight));
+    var DaysL =@Html.Raw(Json.Serialize (ViewBag.DaysL));
+
+        var xValues = Days;
+
+             new Chart("myChart", {
+        type: "line",
+        data: {
+             labels: xValues,
+            datasets: [{
+                data: Proteins,
+                borderColor: "red",
+                fill: false
+            }, {
+                data: caloris,
+                borderColor: "green",
+                fill: false
+            }, {
+                data: Carbohydrates,
+                borderColor: "blue",
+                fill: false
+            }]
+        },
+        options: {
+             legend: { display: false }
+             }
+             });
+        var xValues = Days;
+
+    new Chart("myChart1", {
+        type: "line",
+        data: {
+            labels: xValues,
+            datasets: [{
+                data: ProteinsToday,
+                borderColor: "red",
+                fill: false
+            }, {
+                data: calorisToday,
+                borderColor: "green",
+                fill: false
+            }, {
+                data: CarbohydratesToday,
+                borderColor: "blue",
+                fill: false
+            }]
+        },
+        options: {
+            legend: { display: false }
+        }
+    });
+
+    var xValues = DaysL;
+
+    new Chart("myChartW", {
+        type: "line",
+        data: {
+            labels: xValues,
+            datasets: [{
+                data: Weight,
+                borderColor: "red",
+                fill: false
+
+            }]
+        },
+        options: {
+            legend: { display: false }
+        }
+    });
+    var xValues = Days;
+    new Chart("myChartC_C", {
+        type: "line",
+        data: {
+            labels: xValues,
+            datasets: [{
+                data: calorisToday,
+                borderColor: "red",
+                fill: false
+            }, {
+                data: caloris,
+                borderColor: "green",
+                fill: false
+            }]
+        },
+        options: {
+            legend: { display: false }
+        }
+    });
+
+</script>
+
+

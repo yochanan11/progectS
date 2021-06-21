@@ -9,5 +9,9 @@ namespace progectS.VModel
     public class VMDeshbord
     {
         public User User { get; set; }
+        public Plane Plane { get; set; }
+        public Meal Meal { get; set; }
+        public MealToDAy MealToDAy { get; set; }
+        public Weight Weight { get; set; }
     }
 }

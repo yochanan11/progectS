@@ -58,7 +58,7 @@
 </div>
 <div cllas="row">
     <a class="btn btn-primary" asp-controller="user" asp-action="ShowToDay" asp-route-id="@DAL.Get.User.ID">מה מצבי היום</a>
-    <a class="btn btn-primary" onclick="AddIndices()">הוספת משקל</a>
+    <a class="btn btn-primary accept-policy text-white" onclick="AddIndices()">הוספת משקל</a>
 </div>
 <div id="AddIndices" style="display:none">
     <div class="row">
@@ -88,13 +88,13 @@
 {
 
     <h4> דוח משקל </h4>
-    <table class="table">
+    <table class="table text-center table-success">
         <thead>
-            <tr>
-                <th>ID</th>
-                <th>תאריך משקל</th>
+            <tr class="text-center">
+                
+                <th class="text-center">תאריך משקל</th>
 
-                <th>משקל</th>
+                <th class="text-center">משקל</th>
 
             </tr>
         </thead>
@@ -104,9 +104,7 @@
             @foreach (Weight item in Model.User.Weight)
             {
                 <tr>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.ID)
-                    </td>
+                    
                     <td>
                         @Html.DisplayFor(modelItem => item.Date)
                     </td>

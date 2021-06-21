@@ -102,9 +102,57 @@ namespace progectS.Controllers
         public IActionResult Deshbord(int? id)
         {
             if (DAL.Get.User.Mail == null) return RedirectToAction(nameof(Connect));
-            User user = DAL.Get.Users.Include(p=> p.Plans).ToList().Find(u => u.ID == id);
+            VMDeshbord VM = new VMDeshbord
+            {
+                User= DAL.Get.User,
+                Plane = DAL.Get.Planes.Include(d=> d.Days).ToList().Find(p=> p.ID == id),
+                Meal = DAL.Get.Meals.Include(f=> f.Foods).ToList().Find(m=> m.Day.Plane.ID == id),
+                MealToDAy = DAL.Get.MealsToDAy.Include(f => f.Foods).ToList().Find(m => m.ToDay.Plane.ID == id),
+                Weight = DAL.Get.Indices.ToList().Find(w=> w.ID== id)
 
-            return View(); 
+
+            };
+            var caloris = new int[7];
+            var Proteins = new int[7];
+            var Carbohydrates = new int[7];
+            var calorisToday = new int[7];
+            var ProteinsToday = new int[7];
+            var CarbohydratesToday = new int[7];
+            var Days = new int[7];
+            var Weights = new List<decimal>();
+            var DaysL = new List<int>();
+            Plane plane1 = DAL.Get.Planes.ToList().Find(p => p.ID == id);
+
+            for (int i = 0; i < plane1.Days.Count; i++)
+            {
+                caloris[i] = plane1.Days[i].SumALLProperties.SumCaloris;
+                Carbohydrates[i] = plane1.Days[i].SumALLPropertiesToDay.SumCarbohydrates;
+                Proteins[i] = plane1.Days[i].SumALLProperties.SumProteins;
+                calorisToday[i] = plane1.Days[i].SumALLPropertiesToDay.SumCaloris;
+                ProteinsToday[i] = plane1.Days[i].SumALLPropertiesToDay.SumProteins;
+                Carbohydrates[i] = plane1.Days[i].SumALLProperties.SumCarbohydrates;
+            }
+            int x = 0;
+            foreach (Day item in plane1.Days)
+            {
+                Days[x] = item.Date.Day;
+                x++;
+            }
+            foreach (Weight item in DAL.Get.User.Weight)
+            {
+                Weights.Add(item.MyWeight);
+                DaysL.Add(item.Date.Day);
+            }
+            ViewBag.Carbohydrates = Carbohydrates;
+            ViewBag.Proteins = Proteins;
+            ViewBag.caloris = caloris;
+            ViewBag.CarbohydratesToday = CarbohydratesToday;
+            ViewBag.ProteinsToday = ProteinsToday;
+            ViewBag.calorisToday = calorisToday;
+            ViewBag.Days = Days;
+            ViewBag.Weight = Weights.ToList();
+            ViewBag.DaysL = DaysL.ToList();
+            return View(VM); 
 
         }
 

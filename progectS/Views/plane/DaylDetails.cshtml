@@ -4,41 +4,43 @@
     ViewData["Title"] = "DaylDetails";
 }
 
-<h1>@Model.Day.Plane.Name</h1>
+<h1 class=" border-white">@Model.Day.Plane.Name</h1>
 
 <div>
     <h4>@Model.Day.DayName</h4>
-    <h4>@Model.Day.Date.Date</h4>
+    <h4>@Model.Day.Date</h4>
     <hr />
 </div>
-<div>
-    @Html.ActionLink("Edit", "Edit", new { /* id = Model.PrimaryKey */ }) |
-    <a asp-action="AddMeal" asp-route-id="@Model.Day.ID">הוספת ארוחה</a>|
-    <a asp-action="ShowPlanes" asp-route-id="@DAL.Get.User.ID">הצגת תוכניות</a>
+<div class="row">
+    <a asp-action="AddMeal" asp-route-id="@Model.Day.ID" class="btn btn-outline-secondary mx-3 ">הוספת ארוחה לתוכנית</a>
+    <a asp-action="AddMealToDay" asp-controller="ToDay" asp-route-id="@Model.Day.ID" class="btn btn-outline-danger mx-3">הוספת ארוחה שאכלתי</a>
+    <a asp-action="ShowPlanes" asp-route-id="@DAL.Get.User.ID" class="btn btn-outline-primary mx-3 ">הצגת תוכניות</a>
 </div>
-<div class="aside" style=" width:100%;max-width:550px">
-    @if (Model.Day.Meals.Count > 0)
-    {
-        <div>
-            @Html.ActionLink("Edit", "Edit", new { /* id = Model.PrimaryKey */ }) |
-            <a asp-action="AddMealToDay" asp-controller="ToDay" asp-route-id="@Model.Day.ID">הוספת ארוחה</a>|
-            <a asp-action="ShowPlanes" asp-route-id="@DAL.Get.User.ID">הצגת תוכניות</a>
+<hr />
+
+@if (Model.Day.Meals.Count > 0)
+{
+<div class="aside " style=" width:100%;max-width:550px">
+    <div class="card border border-danger">
+
+        <div class="card-header">
+            <h4 class="text-center">ארוחות שאכלתי היום</h4>
         </div>
-        <h4>ארוחות שאכלתי היום</h4>
-        <div class="row">
+        <div class="row text-center mx-auto">
             @foreach (MealToDAy item in Model.Day.MealsToDAy)
             {
 
-                <div class="col-sm-5 my-2">
-                    <div class="card">
+                <div class="mx-auto my-2">
+                    <div class="card border border-success" style="width:200px">
+
                         <div class="card-body text-center">
 
                             <h4 class="card-title">@item.MealNameToDay.Name</h4>
                             <p>סה"כ קלוריות: @item.SumCaloriesT</p>
                             <p>סה"כ חלבונים:  @item.SumCaloriesT</p>
                             <p>סה"כ פחמימות:  @item.SumCaloriesT</p>
-                            <a asp-action="ToMealDetails" asp-controller="ToDay" asp-route-id="@item.ID" class="btn btn-primary">הצג ארוחה</a>
-                           
+                            <a asp-action="ToMealDetails" asp-controller="ToDay" asp-route-id="@item.ID" class="btn btn-outline-danger">הצג ארוחה</a>
+
                         </div>
 
                     </div>
@@ -46,27 +48,32 @@
             }
 
         </div>
-
-    }
+    </div>
 </div>
-<div class="content">
+        }
+    
+
     @if (Model.Day.Meals.Count > 0)
     {
-        
-        <h4>ארוחות שאני אמור לאכול  היום</h4>
-        <div class="row">
+
+<div class="content ">
+    <div class="card border border-success">
+        <div class="card-header">
+            <h4 class="text-center">ארוחות שאכלתי היום</h4>
+        </div>
+        <div class="row text-center mx-auto">
             @foreach (Meal item in Model.Day.Meals)
             {
 
-                <div class="col-sm-5 my-2">
-                    <div class="card">
+                <div class="mx-auto my-2">
+                    <div class="card border border-danger " style="width:200px">
                         <div class="card-body text-center">
 
                             <h4 class="card-title">@item.MealName.Name</h4>
                             <p>סה"כ קלוריות: @item.SumCalories</p>
                             <p>סה"כ חלבונים: @item.SumProteins</p>
                             <p>סה"כ פחמימות: @item.SumCarbohydrates</p>
-                            <a asp-action="MealDetails" asp-route-id="@item.ID" class="btn btn-primary">הצג ארוחה</a>
+                            <a asp-action="MealDetails" asp-route-id="@item.ID" class="btn btn-outline-success">הצג ארוחה</a>
                         </div>
 
                     </div>
@@ -74,8 +81,12 @@
             }
 
         </div>
-
-    }
+    </div>
 </div>
+    }
+
+    <br />
+    <br />
+
 
 

@@ -9,6 +9,10 @@
   </ItemGroup>
 
   <ItemGroup>
+    <None Include="wwwroot\img\10-things-you-need-know-when-starting-new-diet-4.jpg" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="Chart.js" Version="2.9.3" />
     <PackageReference Include="EntityFramework" Version="6.4.4" />
     <PackageReference Include="Microsoft.AspNet.WebPages" Version="3.2.7" />
