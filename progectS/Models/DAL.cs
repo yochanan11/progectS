@@ -22,6 +22,8 @@ namespace progectS.Models
 
         private void Seed()
         {
+
+
             Food food = new Food//בונה מאכל שיהיה בטוח 
             {
                 Name = "מים",

@@ -15,5 +15,7 @@ namespace progectS.VModel
         public FoodInMeal FoodInMeal { get; set; }
 
         public int FoodID { get; set; }
+
+        public List<Food> FromApi { get; set; }
     }
 }

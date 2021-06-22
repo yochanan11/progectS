@@ -10,6 +10,9 @@ using System.Web.Helpers;
 using System.Web.WebPages;
 using System.Text.Json;
 using System.Text.Json.Serialization;
+using System.Net.Http;
+using System.Net;
+using Newtonsoft.Json;
 
 namespace progectS.Controllers
 {
@@ -189,7 +192,12 @@ namespace progectS.Controllers
                 {
                     Meal = meal
                 }
-            }; 
+
+
+            };
+
+            VM.FromApi = GetFromApi();
+
             return View(VM);
         }
         [HttpPost]
@@ -219,6 +227,65 @@ namespace progectS.Controllers
             return RedirectToAction(nameof(ShowPlanes),new { id = DAL.Get.User.ID });
        
         }
-        
-    }
+
+
+        List<Food> GetFromApi()
+        {
+
+            /*
+            WebClient client = new WebClient();
+            string strApi = client.DownloadString("http://localhost:3000/api/food/search?query=");
+            */
+            HttpClient hc = new HttpClient();
+            //string strApi = hc.GetStringAsync("https://api.nal.usda.gov/fdc/v1/foods/search?api_key=DEMO_KEY&dataType=Survey%20(FNDDS)&pageSize=1").Result;
+            string strApi = hc.GetStringAsync("https://vast-thicket-94426.herokuapp.com/api/food/search?query=").Result;
+            dynamic EntireJson = JsonConvert.DeserializeObject<dynamic>(strApi);
+
+            dynamic Jobj = EntireJson.foods;
+
+            ;
+            FdcFood1 fdcFood = new FdcFood1();
+            fdcFood.FdcFoodID = Jobj.FdcFoodID;
+            fdcFood.LowerCaseDescription = Jobj.LowerCaseDescription;
+            //fdcFood.MongoID = Jobj._id;
+
+            ;
+
+            List<Food> ready = new List<Food>();
+            foreach (var item in collection)
+            {
+                Food f = new Food();
+                f.ID = item....;
+                f.Name = item...;
+
+                ready.Add(f);
+            }
+
+
+            return ready;
+
+
+            /*string endpoint = "https://api.cognitive.microsofttranslator.com/";
+
+            string route = "/translate?api-version=3.0&from=he&to=en";
+            string foodName = "בננה";
+            string location = "eastasia";
+            object[] body = new object[] { new { Text = foodName } };
+            var requestBody = JsonConvert.SerializeObject(body);
+
+            using (var client1 = new HttpClient())
+            using (var request = new HttpRequestMessage())
+            {
+                // Build the request.
+                request.Method = HttpMethod.Post;
+                request.RequestUri = new Uri(endpoint + route);
+                request.Content = new StringContent(requestBody, Encoding.UTF8, "text/html");
+                request.Headers.Add("Ocp-Apim-Subscription-Key", key);
+                request.Headers.Add("Ocp-Apim-Subscription-Region", location);
+
+                // Send the request and get response.
+                HttpResponseMessage response = client1.Send(request); // await client.SendAsy*/
+
+            }
+        }
 }

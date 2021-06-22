@@ -22,7 +22,7 @@
                 <label asp-for="FoodID" class="control-label"></label>
                 
                 <select asp-for="FoodID" class="form-control" aria-label="בחר מאכל מתוך הרשימה">
-                    @foreach (Food food in DAL.Get.Foods)
+                    @foreach (Food food in Model.FromApi)
                     {
                         <option class="" value="@food.ID">@food.Name</option>
                     }

@@ -95,7 +95,7 @@ namespace progectS.Models
                 Day day = new Day { DayName = Darry[i], Date = Date.AddDays(i), Plane = this };
                 Days.Add(day);
             }
-         
+
         }
     }
 
